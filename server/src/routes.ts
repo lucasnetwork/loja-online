@@ -5,6 +5,6 @@ import PurchaserController from '~/controllers/PurchaserController';
 const routes = Router();
 const purchaserController = new PurchaserController();
 
-routes.post('/test', purchaserController.store);
+routes.post('/purchase', purchaserController.store);
 
 export default routes;
