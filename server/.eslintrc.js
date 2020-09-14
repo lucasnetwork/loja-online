@@ -18,5 +18,6 @@ module.exports = {
       },
     ],
     'import/no-unresolved': 'off',
+    camelcase: 'off',
   },
 };
