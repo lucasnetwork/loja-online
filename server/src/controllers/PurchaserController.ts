@@ -5,7 +5,7 @@ import mercadoPago from '~/services/mercadopago';
 interface Items {
   items: Array<{
     id: number;
-    description: string;
+    title: string;
     quantity: number;
     currency_id: string;
     unit_price: number;
@@ -21,7 +21,7 @@ class PurchaserController {
       items: [
         {
           id: 0,
-          description: 'oioi',
+          title: 'oioi',
           quantity: 1,
           currency_id: 'BRL',
           unit_price: 99.99,
@@ -32,11 +32,12 @@ class PurchaserController {
       },
       external_reference: 0,
     };
-
-    const pagamento = await mercadoPago.preferences.create(dados);
-    console.log(pagamento);
-
-    return res.json('eoi');
+    try {
+      const pagamento = await mercadoPago.preferences.create(dados);
+      return res.redirect(pagamento.body.init_point);
+    } catch (err) {
+      return res.send(err);
+    }
   }
 }
 
