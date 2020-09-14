@@ -8,8 +8,8 @@ interface CardProps {
   price: number;
   className: string;
   id: number;
-  values: Array<number>;
-  setValue(values: Array<number>): any;
+  values: Array<{id:number;quant:number}>;
+  setValue(values: Array<{id:number;quant:number}>): any;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -22,10 +22,23 @@ const Card: React.FC<CardProps> = ({
   ...rest
 }) => {
   function handleProduct(index: number) {
-    const newValues = values.map((value: { id: number; quant: number }) =>
-      value.id === index ? { id: value.id, quant: ++value.quant } : value
-    );
-    setvalues(newValues);
+    if(values.length !== 0){
+      const existProduct = values.find(value => value.id === index)
+      if(existProduct){
+        const newProducts = values.map(value => {
+          if(value.id == index){
+            return {id:index,quant:++value.quant}
+          }else{
+            return value
+          }
+        })
+        setValue(newProducts)
+      }else{
+        setValue([...values,{id:index,quant:1}])
+      }
+    }else{
+      setValue([{id:index,quant:1}])
+    }
   }
   return (
     <Container {...rest}>
@@ -33,7 +46,7 @@ const Card: React.FC<CardProps> = ({
       <Image src={image} />
       <ContentContainer>
         <Price>R${price.toString().replace('.', ',')}</Price>
-        <Button save onClick={() => setValue([...values])}>
+        <Button save onClick={() => handleProduct(id)}>
           Comprar
         </Button>
       </ContentContainer>

@@ -7,7 +7,7 @@ interface ContextProps {
 export const MyContext: any = createContext(undefined);
 
 const Context: React.FC<ContextProps> = ({ children }) => {
-  const [values, setValues] = useState<[{ id?: number; quant?: number }]>([{}]);
+  const [values, setValues] = useState<[{ id: number; quant: number }?]>([]);
   return (
     <MyContext.Provider value={{ values, setValues }}>
       {children}

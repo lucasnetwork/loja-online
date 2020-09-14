@@ -1,39 +1,33 @@
-import React, { useContext } from 'react';
+import React, {useContext,useEffect,useState } from 'react';
 import Container from './styles';
 import Card from '~/components/Card';
 import { MyContext } from '~/services/context';
+import api from '~/services/api'
 
 const Home = () => {
   const { values, setValues } = useContext(MyContext);
+  const [products,setProducts] = useState<Array<any>>([])
+
+  useEffect(() =>{
+    async function getProducts(setValues: (values:Array<any>) => any){
+      const response = await api.get("/products")
+      setValues(response.data)
+    }
+    getProducts(setProducts)
+  },[])
   return (
     <Container>
-      <Card
+      {products.map((value: {id:number;title:string;price:number;image:string}) => (
+        <Card
         values={values}
         setValue={setValues}
-        id={1}
+        id={value.id}
         className="card"
-        title="smartphone"
-        price={99.99}
-        image="fjsl"
+        title={value.title}
+        price={value.price}
+        image={value.image}
       />
-      <Card
-        values={values}
-        setValue={setValues}
-        id={2}
-        className="card"
-        title="smartphone"
-        price={99.99}
-        image="fjsl"
-      />
-      <Card
-        values={values}
-        setValue={setValues}
-        id={3}
-        className="card"
-        title="smartphone"
-        price={99.99}
-        image="fjsl"
-      />
+      ))}
     </Container>
   );
 };

@@ -30,5 +30,7 @@ export const ContentContainer = styled.div`
 export const Image = styled.img`
   flex: 1;
   width: 100%;
+  height:225px;
   margin: 40px 0;
+  object-fit:contain;
 `;
